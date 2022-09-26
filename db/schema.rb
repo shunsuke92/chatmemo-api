@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_26_232340) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_26_232444) do
   create_table "comments", force: :cascade do |t|
     t.text "body"
     t.integer "memo_id", null: false
@@ -29,6 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_232340) do
     t.string "createdAt"
     t.string "updatedAt"
     t.string "completedAt"
+    t.string "deletedAt"
     t.index ["user_id"], name: "index_memos_on_user_id"
   end
 
