@@ -8,11 +8,11 @@ module Api
 
         @contents = []
         @memo.find_each do |memo|
-          @reply = []
-          memo.reply.find_each do |reply|
-            @reply.push(reply)
+          @comment = []
+          memo.comment.find_each do |comment|
+            @comment.push(comment)
           end
-          @contents.push(memo.attributes.merge({"comments" => @reply}))
+          @contents.push(memo.attributes.merge({"comments" => @comment}))
         end
 
         render json: {contents:@contents}

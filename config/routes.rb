@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace 'v1' do
       resources :users do
         resources :memos do
-          resources :replies
+          resources :comments
         end
       end
     end

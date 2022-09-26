@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_19_054357) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_26_225651) do
+  create_table "comments", force: :cascade do |t|
+    t.text "body"
+    t.integer "memo_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["memo_id"], name: "index_comments_on_memo_id"
+  end
+
   create_table "memos", force: :cascade do |t|
     t.text "body"
     t.boolean "completed"
@@ -21,20 +29,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_19_054357) do
     t.index ["user_id"], name: "index_memos_on_user_id"
   end
 
-  create_table "replies", force: :cascade do |t|
-    t.text "body"
-    t.integer "memo_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["memo_id"], name: "index_replies_on_memo_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "comments", "memos"
   add_foreign_key "memos", "users"
-  add_foreign_key "replies", "memos"
 end
