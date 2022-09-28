@@ -5,6 +5,7 @@ Rails.application.routes.draw do
         resources :memos do
           resources :comments
         end
+        resources :settings
       end
     end
   end
