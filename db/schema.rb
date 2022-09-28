@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_27_071928) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_28_000802) do
   create_table "comments", force: :cascade do |t|
     t.text "body"
     t.integer "memo_id", null: false
@@ -36,7 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_071928) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.boolean "hideCompletedMemo"
+    t.boolean "hide_completed_memo"
     t.boolean "displayCommentDate"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
