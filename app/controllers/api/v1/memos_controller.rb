@@ -1,10 +1,13 @@
 module Api
   module V1
     class MemosController < ApplicationController
-      # ユーザーの全メモを取得（GET /api/v1/users/:user_id/memos）
+      # メモ情報取得（GET /api/v1/users/:user_id/memos）（動作確認済み）
       def index
+        @limit = params[:limit]
+        @offset = params[:offset]
+
         @user = User.where(uid: params[:user_id]).take
-        @memo = @user.memo.all
+        @memo = @user.memo.all.limit(@limit.to_i).offset(@offset.to_i)
 
         @contents = []
         @memo.find_each do |memo|
@@ -15,38 +18,38 @@ module Api
           @contents.push(memo.attributes.merge({"comments" => @comment}))
         end
 
-        render json: {contents:@contents}
+        render json: {contents:@contents, limit:@limit}
       end
 
-      # メモ新規作成（POST /api/v1/users/:user_id/memos）
+      # メモ新規作成（POST /api/v1/users/:user_id/memos）（動作確認済み9/28）
       def create
         @user = User.where(uid: params[:user_id]).take
         @memo = @user.memo.create(memo_params)
 
-        render json: {status: 200,message: 'user data',data: @memo}
+        render json: {message: 'success create memo',data: @memo}
       end
 
-      # メモ情報更新（PATCH /api/v1/users/:user_id/memos/:id）
+      # メモ更新（PATCH /api/v1/users/:user_id/memos/:id）（動作確認済み9/28）
       def update
         @user = User.where(uid: params[:user_id]).take
         @memo = @user.memo.find(params[:id])
-        @update = @memo.update(memo_params)
+        @memo.update(memo_params)
 
-        render json: {status: 200,message: 'user data',data: @update}
+        render json: {message: 'success update memo' ,data: @memo}
       end
 
-      # メモ削除（DELETE /api/v1/users/:user_id/memos/:id）
+      # メモ削除（DELETE /api/v1/users/:user_id/memos/:id）(未使用)
       def destroy
         @user = User.where(uid: params[:user_id]).take
         @memo = @user.memo.find(params[:id])
         @memo.destroy
       
-        render json: {status: 200,message: 'user data',data: @memo}
+        render json: {message: 'success delete memo',data: @memo}
       end
 
       private
         def memo_params
-          params.require(:memo).permit(:body, :completed, :type)
+          params.require(:memo).permit(:body, :createdAt, :updatedAt, :completed, :completedAt, :deleted, :deletedAt)
         end
     end
   end
