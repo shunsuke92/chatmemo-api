@@ -22,11 +22,17 @@ module Api
       end
 
       # メモ新規作成（POST /api/v1/users/:user_id/memos）（動作確認済み9/28）
+      MAX_RECORD = 10000
       def create
         @user = User.where(uid: params[:user_id]).take
-        @memo = @user.memo.create(memo_params)
 
-        render json: {message: 'success create memo',data: @memo}
+        if @user.memo.count < MAX_RECORD
+          @memo = @user.memo.create(memo_params)
+          render json: {status: 200, message: 'success create memo', data: @memo, count: @user.memo.count}
+        else
+          render json: {status: 500, message: 'record limit reached'}
+        end
+
       end
 
       # メモ更新（PATCH /api/v1/users/:user_id/memos/:id）（動作確認済み9/28）
