@@ -2,12 +2,17 @@ module Api
   module V1
     class CommentsController < ApplicationController
       # コメント新規作成（POST /api/v1/users/:user_id/memos/:memo_id/comments）（動作確認済み9/28）
+      MAX_RECORD = 100
       def create
         @user = User.where(uid: params[:user_id]).take
         @memo = @user.memo.find(params[:memo_id])
-        @comment = @memo.comment.create(comment_params)
+        if @memo.comment.count < MAX_RECORD
+          @comment = @memo.comment.create(comment_params)
+          render json: {status: 200, message: 'success create comment',data: @comment, count: @memo.comment.count}
+        else
+          render json: {status: 500, message: 'record limit reached'}
+        end
 
-        render json: {message: 'success create comment',data: @comment}
       end
 
       # コメント更新（PATCH /api/v1/users/:user_id/memos/:memo_id/comments/:id）（動作確認済み9/28）
