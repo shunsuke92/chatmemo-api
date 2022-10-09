@@ -2,5 +2,5 @@ class User < ApplicationRecord
   has_many :memo, dependent: :destroy
   has_one :setting, dependent: :destroy
 
-  validates :uid, presence: true
+  validates :uid, presence: true, uniqueness: true
 end
