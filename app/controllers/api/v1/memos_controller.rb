@@ -3,32 +3,32 @@ module Api
     class MemosController < ApplicationController
       # メモ情報取得（GET /api/v1/users/:user_id/memos）（動作確認済み）
       def index
-        @limit = params[:limit]
-        @offset = params[:offset]
+        limit = params[:limit]
+        offset = params[:offset]
 
-        @user = User.where(uid: params[:user_id]).take
-        @memo = @user.memo.all.limit(@limit.to_i).offset(@offset.to_i)
+        user = User.where(uid: params[:user_id]).take
+        memo = user.memo.all.limit(limit.to_i).offset(offset.to_i)
 
-        @contents = []
-        @memo.find_each do |memo|
-          @comment = []
-          memo.comment.find_each do |comment|
-            @comment.push(comment)
+        contents = []
+        memo.find_each do |m|
+          comments = []
+          m.comment.find_each do |c|
+            comments.push(c)
           end
-          @contents.push(memo.attributes.merge({"comments" => @comment}))
+          contents.push(m.attributes.merge({"comments" => comments}))
         end
 
-        render json: {contents:@contents, limit:@limit}
+        render json: {contents:contents, limit:limit}
       end
 
       # メモ新規作成（POST /api/v1/users/:user_id/memos）（動作確認済み9/28）
       MAX_RECORD = 10000
       def create
-        @user = User.where(uid: params[:user_id]).take
+        user = User.where(uid: params[:user_id]).take
 
-        if @user.memo.count < MAX_RECORD
-          @memo = @user.memo.create(memo_params)
-          render json: {status: 200, message: 'success create memo', data: @memo, count: @user.memo.count}
+        if user.memo.count < MAX_RECORD
+          memo = user.memo.create(memo_params)
+          render json: {status: 200, message: 'success create memo', data: memo, count: user.memo.count}
         else
           render json: {status: 500, message: 'record limit reached'}
         end
@@ -37,20 +37,20 @@ module Api
 
       # メモ更新（PATCH /api/v1/users/:user_id/memos/:id）（動作確認済み9/28）
       def update
-        @user = User.where(uid: params[:user_id]).take
-        @memo = @user.memo.find(params[:id])
-        @memo.update(memo_params)
+        user = User.where(uid: params[:user_id]).take
+        memo = user.memo.find(params[:id])
+        memo.update(memo_params)
 
-        render json: {message: 'success update memo' ,data: @memo}
+        render json: {message: 'success update memo' ,data: memo}
       end
 
       # メモ削除（DELETE /api/v1/users/:user_id/memos/:id）(未使用)
       def destroy
-        @user = User.where(uid: params[:user_id]).take
-        @memo = @user.memo.find(params[:id])
-        @memo.destroy
+        user = User.where(uid: params[:user_id]).take
+        memo = user.memo.find(params[:id])
+        memo.destroy
       
-        render json: {message: 'success delete memo',data: @memo}
+        render json: {message: 'success delete memo',data: memo}
       end
 
       private
