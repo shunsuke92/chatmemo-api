@@ -3,22 +3,24 @@ module Api
     class MemosController < ApplicationController
       # メモ情報取得（GET /api/v1/users/:user_id/memos）（動作確認済み）
       def index
-        limit = params[:limit]
-        offset = params[:offset]
-
-        user = User.where(uid: params[:user_id]).take
-        memo = user.memo.all.limit(limit.to_i).offset(offset.to_i)
+        # limit,offsetは使用しなくなった
+        # limit = params[:limit]
+        # offset = params[:offset]
+        
+        @user = User.where(uid: params[:user_id]).take
+        # @memo = @user.memo.includes(:comment).limit(limit.to_i).offset(offset.to_i).reorder("id desc").reverse
+        @memo = @user.memo.includes(:comment)
 
         contents = []
-        memo.find_each do |m|
+        @memo.each do |m|
           comments = []
-          m.comment.find_each do |c|
+          m.comment.each do |c|
             comments.push(c)
           end
           contents.push(m.attributes.merge({"comments" => comments}))
         end
 
-        render json: {contents:contents, limit:limit}
+        render json: {contents:contents}
       end
 
       # メモ新規作成（POST /api/v1/users/:user_id/memos）（動作確認済み9/28）
@@ -44,7 +46,7 @@ module Api
         render json: {message: 'success update memo' ,data: memo}
       end
 
-      # メモ削除（DELETE /api/v1/users/:user_id/memos/:id）(未使用)
+      # メモ削除（DELETE /api/v1/users/:user_id/memos/:id）（動作確認済み10/24）
       def destroy
         user = User.where(uid: params[:user_id]).take
         memo = user.memo.find(params[:id])

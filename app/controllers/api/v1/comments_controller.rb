@@ -26,14 +26,14 @@ module Api
       end
 
       # コメント削除（DELETE /api/v1/users/:user_id/memos/:memo_id/comments/:id）（動作確認済み9/28）(未使用)
-      def destroy
-        user = User.where(uid: params[:user_id]).take
-        memo = user.memo.find(params[:memo_id])
-        comment = memo.comment.find(params[:id])
-        comment.destroy
-      
-        render json: {message: 'success delete comment',data: comment}
-      end
+      # def destroy
+      #   user = User.where(uid: params[:user_id]).take
+      #   memo = user.memo.find(params[:memo_id])
+      #   comment = memo.comment.find(params[:id])
+      #   comment.destroy
+      # 
+      #   render json: {message: 'success delete comment',data: comment}
+      # end
 
       private
         def comment_params
