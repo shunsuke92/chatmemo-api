@@ -19,7 +19,7 @@ module Api
 
       private
         def setting_params
-          params.require(:setting).permit(:hide_completed_memo, :display_comment_date, :dark_mode)
+          params.require(:setting).permit(:hide_completed_memo, :display_comment_date, :dark_mode, :push_with_enter)
         end
     end
   end
