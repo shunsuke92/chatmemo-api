@@ -11,9 +11,12 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_01_16_001549) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "comments", force: :cascade do |t|
     t.text "body"
-    t.integer "memo_id", null: false
+    t.bigint "memo_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "createdAt"
@@ -26,7 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_16_001549) do
   create_table "memos", force: :cascade do |t|
     t.text "body"
     t.boolean "completed"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "deleted"
@@ -40,7 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_16_001549) do
   create_table "settings", force: :cascade do |t|
     t.boolean "hide_completed_memo"
     t.boolean "display_comment_date"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "dark_mode", default: "os"
