@@ -7,6 +7,8 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
+    # origins "*"
+    # origins 'http://chat-memo.com'
     origins ENV['CLIENT_ORIGIN']
 
     resource "*",

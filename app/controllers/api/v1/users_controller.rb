@@ -11,7 +11,7 @@ module Api
       # ユーザー新規作成（POST /api/v1/users）（動作確認済み10/5）
       def create
         if User.exists?(user_params)
-          render json: {message: 'existing user'}
+          render json: {message: 'already exist'}
         else
           user = User.create(user_params)
 

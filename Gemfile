@@ -48,3 +48,4 @@ end
 
 # Enable environment variables (.env)
 gem 'dotenv-rails'
+gem "dockerfile-rails", ">= 1.0.0", :group => :development
