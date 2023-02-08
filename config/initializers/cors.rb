@@ -9,10 +9,10 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     # origins "*"
     # origins 'http://chat-memo.com'
-    origins ENV['CLIENT_ORIGIN']
+    origins ENV['CLIENT_ORIGIN'], ENV['CLIENT_ORIGIN2']
 
     resource "*",
       headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+      methods: [:get, :post, :put, :patch, :delete, :options, :head] 
   end
 end
