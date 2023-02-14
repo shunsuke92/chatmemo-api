@@ -9,7 +9,7 @@ module Api
         
         @user = User.where(uid: params[:user_id]).take
         # @memo = @user.memo.includes(:comment).limit(limit.to_i).offset(offset.to_i).reorder("id desc").reverse
-        @memo = @user.memo.includes(:comment)
+        @memo = @user.memo.includes(:comment).order(:createdAt, :id)
 
         contents = []
         @memo.each do |m|
