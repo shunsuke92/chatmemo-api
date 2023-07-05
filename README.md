@@ -1,1 +1,1 @@
-This is a Rails API for [ChatMemo](https://www.chat-memo.com/).
+This is a Rails API for [chatmemo](https://github.com/shunsuke92/chatmemo).
